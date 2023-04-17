@@ -1,37 +1,37 @@
-import React, { useState } from "react";
+import { useState } from 'react';
+import './App.css';
 
 function App() {
-  let [input, setInput] = useState("");
-  let [lists, setLists] = useState(["fadhil"]);
+  const [todos, setTodos] = useState([]);
+  const [input, setInput] = useState('');
 
-  const handleInput = (event) => {
-    setInput(event.target.value);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (input.trim()) {
+      setTodos((prevTodos) => [...prevTodos, { id: Date.now(), text: input }]);
+      setInput('');
+    }
   };
 
-  const addLists = () => {
-    let newLists = [...lists, input];
-    setLists(newLists);
-    setInput("");
+  const handleDelete = (id) => {
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
 
   return (
     <div className="App">
-      <h1>To Do List</h1>
-      <div className="addTask">
-        <button onClick={addLists}>Add</button>
-        <input type="text" value={input} onChange={handleInput} />
-      </div>
-      <div>
-        <ul>
-          {lists.map((list, i) => {
-            return (
-              <li key={i}>
-                {i + 1}. {list}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      <h1>To-Do List</h1>
+      <form onSubmit={handleSubmit}>
+        <input type="text" value={input} onChange={(e) => setInput(e.target.value)} />
+        <button type="submit">Add</button>
+      </form>
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            {todo.text}
+            <button onClick={() => handleDelete(todo.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

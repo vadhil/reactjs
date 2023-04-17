@@ -53,6 +53,7 @@ button{
   margin-left: 20px;
 }
 
-.stratched {
+.done {
   text-decoration: line-through;
+  color: green;
 }

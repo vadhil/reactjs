@@ -1,5 +1,6 @@
 import './App.css';
 import { useState } from 'react';
+import { Task } from './Task';
 function App() {
       let [todoList, setTodoList] = useState([]);
       let [newTask, setNewTask] = useState("");
@@ -9,67 +10,70 @@ function App() {
       setNewTask(event.target.value)
   }
   const addTask =()=> {
+    let id = 1
     const task = {
-      id: todoList.length === 0? 1 :todoList[todoList.length - 1] + 1,
-      taskName: newTask
+      id: id++,
+      // id: todoList.length === 0? 1 :todoList[todoList.length - 1] + 1,
+      taskName: newTask,
+      completed: false
     }
-    setTodoList([...todoList, task]); //keasalahan gw disini karena tidak spesifik menjadikan sbg array
+    setTodoList([...todoList, task]);
+    // setNewTask("") ; //keasalahan gw disini karena tidak spesifik menjadikan sbg array
   }
-  return (
-    <div className="App">
-    <div className="addTask">
-      <h1>To Do List</h1>
-      <button onClick={addTask}>Add task</button>
-      <input type="text" onChange={handleChange} />
-    </div>
-    <div className='list'>
+    const deleteTask =(task)=> {
+      setTodoList( todoList.filter(todo => todo !==  task) )
+    }
+    const doneTask =()=>{
+      setDone(!isDone)
+    }
+    const completeTask = (task)=> {
+      // todoList.completed: true;
+      setTodoList(
+        todoList.map((todo)=> {
+         if (todo !== task ) {
+          return {...todo, completed: true}
+         } else {
+          return todo;
+         }
+
+    })
+      )
+    }
+      return (
+        <div className="App">
+        <div className="addTask">
+          <h1>To Do List</h1>
+          <button onClick={addTask}>Add task</button>
+          <input type="text" onChange={handleChange} />
+          
+        </div>
+        <div className='list'>
+          
+           { todoList.map((task) => {
+                return(
+<Task
+completeTask={completeTask}
+  setDone={setDone}
+  task={task}
+  isDone={isDone}
+  setTodoList={setTodoList}
+  deleteTask={deleteTask}
+  todoList={todoList}
+  completed={todoList.completed}
+/>
+                )
+            })}
+          
+        </div>
       
-       { todoList.map((task) => {
-            return(
-            <div>
-            <h1>{task.taskName}</h1>
-            <button > </button>
-            </div>
-            )
-        })}
+      </div>
       
-    </div>
-  
-  </div>
-  
-  );
-} 
+      );
+    }
+
 
 
 
 export default App;
 
-  {/* <div>
-              <ul>
-              {todos.map((todo) => { 
-                
-               return <li className= {todo.isDone?"stratched": "green"}>{todo.id + ". "}{todo.text}
-                <button onClick={() => setDone(!isDone)}> Done</button>
-                <button onClick={() => setTodos( todos.filter(todol => todol.id !== todo.id) )}> delete </button>
-                </li>
-              })}
-              </ul>
-            </div> */}
-
-
-
-  // const addTodos = () => {
-  //   const newTodos = {
-  //     id: todos.length === 0? 1 :todos[todos.length - 1] + 1,
-  //     text: input
-  //   }
-  //     setTodos(newTodos);
-  //     setInput("");
-  //  }
-
-  // const handleInput = (event) => {
-  //   setInput(event.target.value)
-  // }
-
-
-// value={input} 
+ 
