@@ -4,7 +4,8 @@ import { useState } from 'react';
 function App() {
       let [todos, setTodos] = useState(['ngoding', 'mengaji', 'belajar']);
       let [input, setInput] = useState("");
-      let [lists, setLists] = useState(['fadhil'])
+      let [isDone, setDone] = useState(false);
+
 
       const List = () => {
         return (
@@ -12,8 +13,8 @@ function App() {
               <ul>
               {todos.map((todo, i) => { i++;
                 console.log(todo, i);
-                return <li>{i + ". "}{todo}
-                {/* <button onClick={() => {handleStrikeClick(todo)}}> Stratch </button> */}
+               return <li className= {isDone?"stratched": "green"}>{i + ". "}{todo}
+                <button onClick={() => setDone(!isDone)}> Done</button>
                 <button onClick={() => setTodos( todos.filter(todol => todol !== todo) )}> delete </button>
                 </li>
               })}
@@ -36,25 +37,13 @@ function App() {
   const handleInput = (event) => {
     setInput(event.target.value)
   }
-  const addLists = () => {
-    let newLists = [...lists, input]
-    setLists(newLists);
-    setInput("");
-  }
+
   return (
     <div className="App">
     <h1>To Do List</h1>
     <div className="addTask">
-      <button onClick={addLists}>Add</button>
-      <button onClick={addTodos}>Add</button>
-      <input type="text" value={input} onChange={handleInput} />
-    </div>
-    <div>
-      <ul>
-        {lists.map((list, i) => {
-          return <li key={i}>{list}</li>
-        })}
-      </ul>
+      <button onClick={() => setTodos([...todos, input])}>Add</button>
+      <input type="text" onChange={handleInput} />
     </div>
     <List/>
   </div>
@@ -67,6 +56,4 @@ function App() {
 export default App;
 
 
- {/* <input /> */}
-        {/* <input></input> */}
-        {/* <button onClick={() => {setInput(takeValue())}}>add task</button> */}
+// value={input} 
