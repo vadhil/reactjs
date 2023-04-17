@@ -39,4 +39,20 @@
 
 .name{
   color: red;
+  /* text-decoration: line-through; */
+
+}
+
+ul>li{
+  list-style: none;
+  margin-bottom: 30px;
+}
+
+button{
+  padding: 3px;
+  margin-left: 20px;
+}
+
+.stratched {
+  text-decoration: line-through;
 }

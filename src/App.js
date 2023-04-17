@@ -1,116 +1,90 @@
 import './App.css';
 import { useState } from 'react';
-import {Books} from './User';
+// import {Books} from './User';
 // import styles from './App.module.css';
 
-function App() {
-  const name = "fadhil";
-  const age = 2;
-  const isGreen = false;
-  const books = [
-    { title: "The Great Gatsby", author: "F. Scott Fitzgerald" },
-    { title: "To Kill a Mockingbird", author: "Harper Lee" },
-    { title: "1984", author: "George Orwell" }
-  ];
-  const fruits = [
-    { name: "apple", color: "red" },
-    { name: "banana", color: "yellow" },
-    { name: "kiwi", color: "green" }]
-    const planets = [
-      { name: "Mercury", isGasPlanet: false },
-      { name: "Saturn", isGasPlanet: true },
-      { name: "Venus", isGasPlanet: false },
-      { name: "Earth", isGasPlanet: false },
-      { name: "Jupiter", isGasPlanet: true },
-      { name: "Uranus", isGasPlanet: true },
-      { name: "Mars", isGasPlanet: false },
-      { name: "Neptune", isGasPlanet: true },
-    ];
-  const Planets = (props) => {
-    {return <div style={{color:  props.cond ? "red": "green"}}>
-              <h1>"{props.name} are {props.cond? "poison, we cant live there": "safe"} </h1>
-    </div>
-    }
-  }  
+// let toggle = true;
+// const coretList = (toggle) =>{
+//   return !toggle;
+// }
+    // <li className={toggle? "stratched": "name"}>{i + ". "}{todo}</li>
 
-  let [value, setValue] = useState(0);
-  const increaseValue = () => {
-    value ++;
-    setValue(value)
+//     const strikeList = (stratched) => {
+//       const newTodos = todos.filter(todo => todo == stratched)
+//       setTodos(newTodos);
+// }
+
+function App() {
+let [todos, setTodos] = useState(['ngoding', 'mengaji', 'belajar']);
+
+const deleteList = (deleted) => {
+      const newTodos = todos.filter(todo => todo !== deleted)
+      setTodos(newTodos);
+}
+// tidak perlu mencari, cukup toggle 
+//hasilnya akan array
+// const newTodos = todos.filter(todo => todo == strike) ini arr yg dicoret
+//bagaimana cara memasukkan stylenya? mungkin harus pakai props
+const strikeList = (strike) =>{
+  const newTodos = todos.filter(todo => todo === strike)
+  setTodos(newTodos);
+}
+
+const List = () => {
+  const handleDoneClick = (todo) => {
+    deleteList(todo);
   }
-  let [input, setInput] = useState("");
-  const changeInput = (event) => {
+const handleStrikeClick = (todo) => {
+  strikeList(todo);
+    // setTodos(
+    //   <li className="stratched">{i + ". "}{todo}</li>
+    // );
+    }
+  return (
+      <div>
+        <ul>
+        {todos.map((todo, i) => { i++;
+          console.log(todo, i);
+          return <li>{i + ". "}{todo}
+          <button onClick={() => {handleDoneClick(todo)}}> Done </button>
+          <button onClick={() => {handleStrikeClick(todo)}}> Stratch </button>
+
+          </li>
+        })}
+          {/* <button onClick={deleteList}> Done </button> */}
+        </ul>
+          {/* <input> add to do list </input> */}
+      </div>
+  );
+}
+let [input, setInput] = useState("");
+
+const takeValue = (event) =>{
     setInput(event.target.value);
   }
-  const showing = "showing you my secret";
-  
-  let [show, setShow] = useState(false);
-  // const trigger = () => {
-  //   setShow(!show);
-  // }
-  let [red, setRed] = useState(true);
+//       return <div>
+//         <h1>{input}</h1>
+//       <input onChange={takeValue}>
+//       </input>
+//       </div>
+// }
 
-  let [num, setNum] = useState(0);
-  const increaseNum = () => {
-    num ++;
-    setNum(num)
-  }
   return (
     <div className="App ">
+        <h1>to do list</h1>
+        <div className='addTask'>
+        {/* <Input/> */}
+        <h1>{input}</h1>
+        <input onChange={takeValue}/>
+        <button>add task</button>
+        </div>
 
-        <h1> {num}</h1>
-        <button onClick={increaseNum}>increase</button>
-        <button onClick={()=> setNum(num -= 1)}>decrease</button>
-        <button onClick={()=> setNum(num*0)}>make it zero</button>
-
-        <h1 className={red && "name"}> "power of ReactJS"</h1>
-        <button onClick={()=> setRed(!red)}>RED!</button>
-        <h1 >{show && showing}</h1>
-        <button onClick={() => setShow(!show)}>show/hide</button>
-        <input type="text" onChange={changeInput}></input>
-        <h1> {input} </h1>
-        <h1 className='name'>{value}</h1>
-        <button onClick={increaseValue}>increase</button>
-        {planets.map((planet) => {
-          return <Planets name={planet.name} cond={planet.isGasPlanet}/>
-        })}
-       {books.map((book, i) => {
-        return < Books title = {book.title} author = {book.author}      
-         />
-       })}
-
-      {fruits.map((fruit, i )=> { i++
-          return <div>
-            <h1>{i + ". "}{fruit.name}</h1>
-            <h3>{fruit.color}</h3>
-          </div>
-      })}
-      <h1 style={{backgroundColor: isGreen ? "green" : "red" }}> testing </h1>   
-      <User name="fadhil" age={25} email={"fadhil.alra@gmail.com"}/>
-      {age >= 18 ? <h1>u should get a job</h1>:<h1>u should study more</h1> }  
-      <Job salary={20+ "k"} company="Google" position="manager" />
+        <List/>
     </div>
+
   );
 } 
 
 
-const User = (props) => {
-  return (
-    <div>
-      <h1> {props.name}</h1>
-      <h3> {props.age} </h3>
-      <h3> {props.email}</h3>
-    </div>
-  );
-}
-const Job = (props) => {
-  return (
-    <div>
-      <h1> {props.salary}</h1>
-      <h3> {props.position} </h3>
-      <h3> {props.company}</h3>
-    </div>
-  );
-}
 
 export default App;
